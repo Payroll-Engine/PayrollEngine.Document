@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PayrollEngine.Document</name>
+    </assembly>
+    <members>
+        <member name="T:PayrollEngine.Document.CellExtensions">
+            <summary>Extensions for the type <see cref="T:NPOI.SS.UserModel.ICell"/> </summary>
+        </member>
+        <member name="M:PayrollEngine.Document.CellExtensions.SetValue(NPOI.SS.UserModel.ICell,System.Object)">
+            <summary>Set the excel cell value</summary>
+            <param name="cell">The target cell</param>
+            <param name="value">The value to set</param>
+        </member>
+        <member name="T:PayrollEngine.Document.DocumentMerge">
+            <summary>Document merge, based on FastReport</summary>
+        </member>
+        <member name="M:PayrollEngine.Document.DocumentMerge.IsMergeable(PayrollEngine.Document.DocumentType)">
+            <summary>Test for mergeable document</summary>
+            <param name="documentType">The document type</param>
+            <returns>True for Pdf documents</returns>
+        </member>
+        <member name="M:PayrollEngine.Document.DocumentMerge.Merge(System.IO.Stream,System.Data.DataSet,PayrollEngine.Document.DocumentType,PayrollEngine.Document.DocumentMetadata)">
+            <summary>
+            Merge a document from a stream to a stream
+            </summary>
+            <param name="templateStream">Name of the template file</param>
+            <param name="dataSet">The data set</param>
+            <param name="documentType">Type of the document</param>
+            <param name="metadata">The document metadata</param>
+            <returns>The merged document stream</returns>
+        </member>
+        <member name="M:PayrollEngine.Document.DocumentMerge.ExcelMerge(System.Data.DataSet,PayrollEngine.Document.DocumentMetadata)">
+            <summary>Merge to excel stream</summary>
+            <param name="dataSet">The source data</param>
+            <param name="metadata">The document meta data</param>
+        </member>
+        <member name="T:PayrollEngine.Document.PDFSimpleExportExtensions">
+            <summary>Extensions for the type <see cref="T:FastReport.Export.PdfSimple.PDFSimpleExport"/> </summary>
+        </member>
+        <member name="M:PayrollEngine.Document.PDFSimpleExportExtensions.ApplyMetadata(FastReport.Export.PdfSimple.PDFSimpleExport,PayrollEngine.Document.DocumentMetadata)">
+            <summary>Apply metadata to the document</summary>
+            <param name="export">The document</param>
+            <param name="metadata">The document meta data</param>
+        </member>
+        <member name="T:PayrollEngine.Document.WorkbookExtensions">
+            <summary>Extensions for the type <see cref="T:NPOI.HSSF.UserModel.HSSFWorkbook"/> </summary>
+        </member>
+        <member name="M:PayrollEngine.Document.WorkbookExtensions.Import(NPOI.HSSF.UserModel.HSSFWorkbook,System.Data.DataSet)">
+            <summary>Import data set to a workbook</summary>
+            <param name="workbook">The target workbook</param>
+            <param name="dataSet">The data set to import</param>
+        </member>
+    </members>
+</doc>

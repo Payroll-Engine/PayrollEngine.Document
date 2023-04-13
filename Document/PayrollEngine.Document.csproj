@@ -1,0 +1,42 @@
+﻿<!--EXTERNAL_PROPERTIES: PackageId-->
+<!--EXTERNAL_PROPERTIES: PackageVersion-->
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AssemblyName>PayrollEngine.Document</AssemblyName>
+		<RootNamespace>PayrollEngine.Document</RootNamespace>
+		<Authors>Jani Giannoudis</Authors>
+		<Company>Software Consulting Giannoudis</Company>
+		<Product>Payroll Engine</Product>
+		<Description>Payroll Engine Document Services</Description>
+	</PropertyGroup>
+
+	<!-- help file generation -->
+	<PropertyGroup>
+		<DocumentationFile>$(AssemblyName).xml</DocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PayrollEngine.Core" Version="0.5.0-pre-230413-7" />
+		<PackageReference Include="FastReport.OpenSource" Version="2023.2.7" />
+		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2023.2.7" />
+		<PackageReference Include="NPOI" Version="2.6.0" />
+	</ItemGroup>
+
+	<!-- include xml documention files and json schemas to the nuget package -->
+	<ItemGroup>
+		<None Include="$(OutputDir)*.xml" Pack="true">
+			<PackageCopyToOutput>true</PackageCopyToOutput>
+		</None>
+		<None Include="$(OutputDir)*.schema.json" Pack="true">
+			<PackageCopyToOutput>true</PackageCopyToOutput>
+		</None>
+	</ItemGroup>
+
+	<!-- publish package -->
+	<Target Name="PublishPackage" AfterTargets="Pack" Condition="exists('$(PayrollEnginePackageDir)')">
+		<Message Importance="High" Text="Publish package..." />
+		<Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(PayrollEnginePackageDir)" />
+	</Target>
+
+</Project>

@@ -3,17 +3,18 @@ using System.Data;
 using System.IO;
 using FastReport;
 using FastReport.Export.PdfSimple;
-using NPOI.HSSF.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace PayrollEngine.Document;
 
-/// <summary>Document merge, based on FastReport</summary>
-public class DocumentMerge : IDocumentMerge
+/// <summary>Data merge, based on FastReport</summary>
+public class DataMerge : IDataMerge
 {
     /// <summary>Test for mergeable document</summary>
     /// <param name="documentType">The document type</param>
     /// <returns>True for Pdf documents</returns>
     public bool IsMergeable(DocumentType documentType) =>
+        documentType == DocumentType.Excel ||
         documentType == DocumentType.Pdf;
 
     /// <summary>
@@ -79,15 +80,15 @@ public class DocumentMerge : IDocumentMerge
             throw new ArgumentNullException(nameof(metadata));
         }
 
-        // workbook
-        using var workbook = new HSSFWorkbook();
+        // workbook (uses the xlsx variant)
+        using var workbook = new XSSFWorkbook();
         // import 
         workbook.Import(dataSet);
 
         // result
         var resultStream = new MemoryStream();
-        workbook.Write(resultStream);
-        resultStream.Position = 0;
+        workbook.Write(resultStream, true);
+        resultStream.Seek(0, SeekOrigin.Begin);
         return resultStream;
     }
 }

@@ -12,15 +12,15 @@
             <param name="cell">The target cell</param>
             <param name="value">The value to set</param>
         </member>
-        <member name="T:PayrollEngine.Document.DocumentMerge">
-            <summary>Document merge, based on FastReport</summary>
+        <member name="T:PayrollEngine.Document.DataMerge">
+            <summary>Data merge, based on FastReport</summary>
         </member>
-        <member name="M:PayrollEngine.Document.DocumentMerge.IsMergeable(PayrollEngine.Document.DocumentType)">
+        <member name="M:PayrollEngine.Document.DataMerge.IsMergeable(PayrollEngine.Document.DocumentType)">
             <summary>Test for mergeable document</summary>
             <param name="documentType">The document type</param>
             <returns>True for Pdf documents</returns>
         </member>
-        <member name="M:PayrollEngine.Document.DocumentMerge.Merge(System.IO.Stream,System.Data.DataSet,PayrollEngine.Document.DocumentType,PayrollEngine.Document.DocumentMetadata)">
+        <member name="M:PayrollEngine.Document.DataMerge.Merge(System.IO.Stream,System.Data.DataSet,PayrollEngine.Document.DocumentType,PayrollEngine.Document.DocumentMetadata)">
             <summary>
             Merge a document from a stream to a stream
             </summary>
@@ -30,7 +30,7 @@
             <param name="metadata">The document metadata</param>
             <returns>The merged document stream</returns>
         </member>
-        <member name="M:PayrollEngine.Document.DocumentMerge.ExcelMerge(System.Data.DataSet,PayrollEngine.Document.DocumentMetadata)">
+        <member name="M:PayrollEngine.Document.DataMerge.ExcelMerge(System.Data.DataSet,PayrollEngine.Document.DocumentMetadata)">
             <summary>Merge to excel stream</summary>
             <param name="dataSet">The source data</param>
             <param name="metadata">The document meta data</param>
@@ -44,9 +44,9 @@
             <param name="metadata">The document meta data</param>
         </member>
         <member name="T:PayrollEngine.Document.WorkbookExtensions">
-            <summary>Extensions for the type <see cref="T:NPOI.HSSF.UserModel.HSSFWorkbook"/> </summary>
+            <summary>Extensions for the type <see cref="T:NPOI.SS.UserModel.IWorkbook"/> </summary>
         </member>
-        <member name="M:PayrollEngine.Document.WorkbookExtensions.Import(NPOI.HSSF.UserModel.HSSFWorkbook,System.Data.DataSet)">
+        <member name="M:PayrollEngine.Document.WorkbookExtensions.Import(NPOI.SS.UserModel.IWorkbook,System.Data.DataSet)">
             <summary>Import data set to a workbook</summary>
             <param name="workbook">The target workbook</param>
             <param name="dataSet">The data set to import</param>

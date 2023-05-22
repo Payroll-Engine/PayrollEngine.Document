@@ -16,18 +16,24 @@ public static class CellExtensions
         {
             case double doubleValue:
                 cell.SetCellValue(doubleValue);
+                cell.SetCellType(CellType.Numeric);
                 break;
             case bool boolValue:
                 cell.SetCellValue(boolValue);
+                cell.SetCellType(CellType.Boolean);
                 break;
             case DateOnly dateOnly:
-                cell.SetCellValue(dateOnly);
+                cell.SetCellValue(dateOnly.ToShortDateString());
+                cell.SetCellType(CellType.String);
                 break;
             case DateTime dateTime:
-                cell.SetCellValue(dateTime);
+                cell.SetCellValue(
+                    $"{dateTime.ToShortDateString()} {dateTime.ToShortTimeString()}");
+                cell.SetCellType(CellType.String);
                 break;
             default:
                 cell.SetCellValue(value.ToString());
+                cell.SetCellType(CellType.String);
                 break;
         }
     }

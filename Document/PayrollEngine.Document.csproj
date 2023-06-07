@@ -5,11 +5,7 @@
 	<PropertyGroup>
 		<AssemblyName>PayrollEngine.Document</AssemblyName>
 		<RootNamespace>PayrollEngine.Document</RootNamespace>
-		<Authors>Jani Giannoudis</Authors>
-		<Company>Software Consulting Giannoudis</Company>
-		<Copyright>2023 Software Consulting Giannoudis</Copyright>
-		<Product>Payroll Engine</Product>
-		<Description>Payroll Engine Document Services</Description>
+		<Description>Payroll Engine Document</Description>
 	</PropertyGroup>
 
 	<!-- help file generation -->
@@ -19,7 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="PayrollEngine.Core" Version="0.5.0-pre-230606-3" />
+		<PackageReference Include="PayrollEngine.Core" Version="0.5.0-pre-230606-4" />
 		<PackageReference Include="FastReport.OpenSource" Version="2023.2.15" />
 		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2023.2.15" />
 		<PackageReference Include="NPOI" Version="2.6.0" />

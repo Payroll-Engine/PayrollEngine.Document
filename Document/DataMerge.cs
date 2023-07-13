@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using FastReport;
@@ -17,16 +18,9 @@ public class DataMerge : IDataMerge
         documentType == DocumentType.Excel ||
         documentType == DocumentType.Pdf;
 
-    /// <summary>
-    /// Merge a document from a stream to a stream
-    /// </summary>
-    /// <param name="templateStream">Name of the template file</param>
-    /// <param name="dataSet">The data set</param>
-    /// <param name="documentType">Type of the document</param>
-    /// <param name="metadata">The document metadata</param>
-    /// <returns>The merged document stream</returns>
+    /// <inheritdoc />
     public MemoryStream Merge(Stream templateStream, DataSet dataSet, DocumentType documentType,
-        DocumentMetadata metadata)
+        DocumentMetadata metadata, IDictionary<string, object> parameters = null)
     {
         if (templateStream == null)
         {
@@ -50,6 +44,15 @@ public class DataMerge : IDataMerge
         // word and pdf requires a word template
         using var report = Report.FromStream(templateStream);
 
+        // report parameters
+        if (parameters != null)
+        {
+            foreach (var parameter in parameters)
+            {
+                report.SetParameterValue(parameter.Key, parameter.Value);
+            }
+        }
+
         // register the data set
         report.RegisterData(dataSet);
 
@@ -66,10 +69,9 @@ public class DataMerge : IDataMerge
         return resultStream;
     }
 
-    /// <summary>Merge to excel stream</summary>
-    /// <param name="dataSet">The source data</param>
-    /// <param name="metadata">The document meta data</param>
-    public MemoryStream ExcelMerge(DataSet dataSet, DocumentMetadata metadata)
+    /// <inheritdoc />
+    public MemoryStream ExcelMerge(DataSet dataSet, DocumentMetadata metadata,
+        IDictionary<string, object> parameters = null)
     {
         if (dataSet == null)
         {

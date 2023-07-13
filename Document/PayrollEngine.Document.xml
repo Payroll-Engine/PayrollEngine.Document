@@ -20,20 +20,11 @@
             <param name="documentType">The document type</param>
             <returns>True for Pdf documents</returns>
         </member>
-        <member name="M:PayrollEngine.Document.DataMerge.Merge(System.IO.Stream,System.Data.DataSet,PayrollEngine.Document.DocumentType,PayrollEngine.Document.DocumentMetadata)">
-            <summary>
-            Merge a document from a stream to a stream
-            </summary>
-            <param name="templateStream">Name of the template file</param>
-            <param name="dataSet">The data set</param>
-            <param name="documentType">Type of the document</param>
-            <param name="metadata">The document metadata</param>
-            <returns>The merged document stream</returns>
+        <member name="M:PayrollEngine.Document.DataMerge.Merge(System.IO.Stream,System.Data.DataSet,PayrollEngine.Document.DocumentType,PayrollEngine.Document.DocumentMetadata,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <inheritdoc />
         </member>
-        <member name="M:PayrollEngine.Document.DataMerge.ExcelMerge(System.Data.DataSet,PayrollEngine.Document.DocumentMetadata)">
-            <summary>Merge to excel stream</summary>
-            <param name="dataSet">The source data</param>
-            <param name="metadata">The document meta data</param>
+        <member name="M:PayrollEngine.Document.DataMerge.ExcelMerge(System.Data.DataSet,PayrollEngine.Document.DocumentMetadata,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <inheritdoc />
         </member>
         <member name="T:PayrollEngine.Document.PDFSimpleExportExtensions">
             <summary>Extensions for the type <see cref="T:FastReport.Export.PdfSimple.PDFSimpleExport"/> </summary>

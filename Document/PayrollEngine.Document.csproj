@@ -16,9 +16,9 @@
 
 	<ItemGroup>
 		<PackageReference Include="PayrollEngine.Core" Version="0.5.0-230719-3" />
-		<PackageReference Include="FastReport.OpenSource" Version="2023.2.18" />
-		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2023.2.18" />
-		<PackageReference Include="NPOI" Version="2.6.0" />
+		<PackageReference Include="FastReport.OpenSource" Version="2023.2.20" />
+		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2023.2.20" />
+		<PackageReference Include="NPOI" Version="2.6.1" />
 	</ItemGroup>
 
 	<!-- include xml documention files and json schemas to the nuget package -->

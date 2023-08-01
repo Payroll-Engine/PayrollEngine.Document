@@ -1,4 +1,4 @@
-<h1>Payroll Engine Document</h1>
+# Payroll Engine Document
 
 Document library for the Payroll Engine, including the data transformation for exchange and reporting.
 

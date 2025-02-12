@@ -9,8 +9,8 @@ Reports based on [FastReport Open Source](https://github.com/FastReports/FastRep
 - Visual designer: [FastReport Designer Community Edition](https://github.com/FastReports/FastReport/releases/latest)
 
 ## Third party components
-- Excel conversion with [NPOI](https://github.com/dotnetcore/NPOI/) - licence `Apache 2.0`
-- Reports with [FastReport Open Source](https://github.com/FastReports/FastReport/) - licence `MIT`
+- Excel conversion with [NPOI](https://github.com/dotnetcore/NPOI/) - license `Apache 2.0`
+- Reports with [FastReport Open Source](https://github.com/FastReports/FastReport/) - license `MIT`
 
 ## MS Build
 Supported runtime environment variables:

@@ -32,7 +32,7 @@ public class DataMerge : IDataMerge
         }
         if (!IsMergeable(documentType))
         {
-            throw new ArgumentOutOfRangeException($"{documentType} merge is not supported", nameof(documentType));
+            throw new ArgumentOutOfRangeException($"{documentType} merge is not supported.", nameof(documentType));
         }
 
         // excel

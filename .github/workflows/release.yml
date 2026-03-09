@@ -40,11 +40,9 @@ jobs:
               IS_PRERELEASE="false"
             fi
           fi
-
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
           echo "is_prerelease=${IS_PRERELEASE}" >> $GITHUB_OUTPUT
           echo "dry_run=${DRY_RUN}" >> $GITHUB_OUTPUT
-
           if [ "${DRY_RUN}" = "true" ]; then
             echo "make_draft=true" >> $GITHUB_OUTPUT
           else
@@ -68,36 +66,24 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const errors = [];
-
             try {
               await github.rest.git.getRef({ owner, repo, ref: `tags/${tag}` });
               errors.push(`Git tag '${tag}' already exists`);
-            } catch (e) {
-              if (e.status !== 404) throw e;
-              console.log(`✅ Git tag '${tag}' is available`);
-            }
-
+            } catch (e) { if (e.status !== 404) throw e; }
             try {
               await github.rest.repos.getReleaseByTag({ owner, repo, tag });
               errors.push(`GitHub Release '${tag}' already exists`);
-            } catch (e) {
-              if (e.status !== 404) throw e;
-              console.log(`✅ GitHub Release '${tag}' is available`);
-            }
-
+            } catch (e) { if (e.status !== 404) throw e; }
             try {
               const packages = await github.rest.packages.getAllPackageVersionsForPackageOwnedByOrg({
                 package_type: 'nuget', package_name: repo, org: owner
               });
               if (packages.data.some(p => p.name === version))
                 errors.push(`NuGet package version '${version}' already exists on GitHub Packages`);
-              else
-                console.log(`✅ NuGet package version '${version}' is available`);
             } catch (e) {
               if (e.status === 404) console.log(`✅ No package found yet (first publish)`);
               else console.warn(`⚠️ Could not check packages: ${e.message}`);
             }
-
             if (errors.length > 0)
               core.setFailed(`❌ Version guard failed:\n${errors.map(e => `  - ${e}`).join('\n')}`);
             else
@@ -109,17 +95,16 @@ jobs:
         run: |
           CURRENT=$(grep -oP '(?<=<Version>)[^<]+' Directory.Build.props)
           echo "version=${CURRENT}" >> $GITHUB_OUTPUT
-          echo "📋 Current version in Directory.Build.props: ${CURRENT}"
 
       - name: Update Directory.Build.props
         run: |
           VERSION="${{ steps.params.outputs.version }}"
           CURRENT="${{ steps.current.outputs.version }}"
           if [ "${VERSION}" = "${CURRENT}" ]; then
-            echo "ℹ️ Version already set to ${VERSION}, no change needed"
+            echo "ℹ️ Version already set to ${VERSION}"
           else
             sed -i "s|<Version>${CURRENT}</Version>|<Version>${VERSION}</Version>|" Directory.Build.props
-            echo "✅ Updated Directory.Build.props: ${CURRENT} → ${VERSION}"
+            echo "✅ Updated: ${CURRENT} → ${VERSION}"
           fi
           grep '<Version>' Directory.Build.props
 
@@ -131,14 +116,21 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add Directory.Build.props
           if git diff --cached --quiet; then
-            echo "ℹ️ No changes to commit (version was already correct)"
+            echo "ℹ️ No changes to commit"
           else
             git commit -m "release: v${VERSION}"
             git push
-            echo "✅ Version bump committed and pushed"
           fi
 
       # ── Build ────────────────────────────────────────
+      - name: Update PE dependency versions
+        run: |
+          VERSION="${{ steps.params.outputs.version }}"
+          find . -name "*.csproj" | xargs sed -i -E \
+            "s|(<PackageReference Include=\"PayrollEngine\.[^\"]*\" Version=\")[^\"]*\"|\1${VERSION}\"|g"
+          echo "✅ PE dependencies updated to ${VERSION}"
+          grep -rh 'PayrollEngine\.' --include="*.csproj" | grep 'Version=' || true
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:

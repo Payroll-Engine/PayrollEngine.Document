@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
@@ -13,10 +13,7 @@ public static class WorkbookExtensions
     /// <param name="dataSet">The data set to import</param>
     public static void Import(this IWorkbook workbook, DataSet dataSet)
     {
-        if (dataSet == null)
-        {
-            throw new ArgumentNullException(nameof(dataSet));
-        }
+        ArgumentNullException.ThrowIfNull(dataSet);
 
         // for any data table a worksheet
         foreach (DataTable table in dataSet.Tables)

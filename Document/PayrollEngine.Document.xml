@@ -18,7 +18,7 @@
         <member name="M:PayrollEngine.Document.DataMerge.IsMergeable(PayrollEngine.Document.DocumentType)">
             <summary>Test for mergeable document</summary>
             <param name="documentType">The document type</param>
-            <returns>True for Pdf documents</returns>
+            <returns>True for Excel and Pdf documents</returns>
         </member>
         <member name="M:PayrollEngine.Document.DataMerge.Merge(System.IO.Stream,System.Data.DataSet,PayrollEngine.Document.DocumentType,PayrollEngine.Document.DocumentMetadata,System.Collections.Generic.IDictionary{System.String,System.Object})">
             <inheritdoc />

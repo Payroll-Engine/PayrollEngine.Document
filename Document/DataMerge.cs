@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -13,7 +13,7 @@ public class DataMerge : IDataMerge
 {
     /// <summary>Test for mergeable document</summary>
     /// <param name="documentType">The document type</param>
-    /// <returns>True for Pdf documents</returns>
+    /// <returns>True for Excel and Pdf documents</returns>
     public bool IsMergeable(DocumentType documentType) =>
         documentType == DocumentType.Excel ||
         documentType == DocumentType.Pdf;
@@ -22,14 +22,8 @@ public class DataMerge : IDataMerge
     public MemoryStream Merge(Stream templateStream, DataSet dataSet, DocumentType documentType,
         DocumentMetadata metadata, IDictionary<string, object> parameters = null)
     {
-        if (templateStream == null)
-        {
-            throw new ArgumentNullException(nameof(templateStream));
-        }
-        if (dataSet == null)
-        {
-            throw new ArgumentNullException(nameof(dataSet));
-        }
+        ArgumentNullException.ThrowIfNull(templateStream);
+        ArgumentNullException.ThrowIfNull(dataSet);
         if (!IsMergeable(documentType))
         {
             throw new ArgumentOutOfRangeException($"{documentType} merge is not supported.", nameof(documentType));
@@ -60,7 +54,7 @@ public class DataMerge : IDataMerge
         report.Prepare();
 
         // export to pdf
-        var pdfExport = new PDFSimpleExport();
+        using var pdfExport = new PDFSimpleExport();
         pdfExport.ApplyMetadata(metadata);
         var resultStream = new MemoryStream();
         report.Export(pdfExport, resultStream);
@@ -73,14 +67,8 @@ public class DataMerge : IDataMerge
     public MemoryStream ExcelMerge(DataSet dataSet, DocumentMetadata metadata,
         IDictionary<string, object> parameters = null)
     {
-        if (dataSet == null)
-        {
-            throw new ArgumentNullException(nameof(dataSet));
-        }
-        if (metadata == null)
-        {
-            throw new ArgumentNullException(nameof(metadata));
-        }
+        ArgumentNullException.ThrowIfNull(dataSet);
+        ArgumentNullException.ThrowIfNull(metadata);
 
         // workbook (uses the xlsx variant)
         using var workbook = new XSSFWorkbook();

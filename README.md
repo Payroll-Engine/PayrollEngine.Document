@@ -3,11 +3,12 @@
 > Part of the [Payroll Engine](https://github.com/Payroll-Engine/PayrollEngine) open-source payroll automation framework.
 > Full documentation at [payrollengine.org](https://payrollengine.org).
 
-Document library for the Payroll Engine, providing data transformation for exchange and reporting. Supports PDF generation via FastReport templates and Excel export via NPOI.
+Document library for the Payroll Engine, providing data transformation for exchange and reporting. Supports PDF generation via FastReport templates, Excel export via NPOI, and FastReport template generation from a DataSet schema.
 
 ## Features
 - **PDF Generation** — Merge `DataSet` with FastReport templates (`.frx`) to produce PDF documents with metadata (author, title, keywords)
 - **Excel Export** — Convert `DataSet` tables to `.xlsx` workbooks with auto-sized columns, header filters, and correct cell typing (numeric, boolean, date)
+- **Template Generation** — Generate a FastReport skeleton (`.frx`) from a DataSet schema for use in the FastReport Designer, or update the Dictionary section of an existing template in CI pipelines
 - **Template Parameters** — Pass custom key-value parameters into FastReport templates
 - **Document Metadata** — Apply metadata (author, title, subject, keywords) to generated documents
 
@@ -30,10 +31,10 @@ dotnet add package PayrollEngine.Document
 ```csharp
 using PayrollEngine.Document;
 
-var dataMerge = new DataMerge();
+IDocumentService documentService = new DocumentService();
 
 // load your FastReport template (.frx)
-using var templateStream = File.OpenRead("report-template.frx");
+await using var templateStream = File.OpenRead("report-template.frx");
 
 // prepare your data
 var dataSet = new DataSet();
@@ -44,7 +45,6 @@ var metadata = new DocumentMetadata
 {
     Title = "Payroll Report Q1 2026",
     Author = "Payroll Engine",
-    Application = "PayrollEngine.Document",
     Keywords = "payroll, report"
 };
 
@@ -56,64 +56,71 @@ var parameters = new Dictionary<string, object>
 };
 
 // generate PDF
-using var pdfStream = dataMerge.Merge(
+await using var pdfStream = await documentService.MergeAsync(
     templateStream, dataSet, DocumentType.Pdf, metadata, parameters);
 
 // save to file
-await using var fileStream = File.Create("report.pdf");
-await pdfStream.CopyToAsync(fileStream);
+await pdfStream.WriteToFile("report.pdf");
 ```
 
 ### Excel Export
 
 ```csharp
-using PayrollEngine.Document;
-
-var dataMerge = new DataMerge();
+IDocumentService documentService = new DocumentService();
 
 var dataSet = new DataSet();
 // ... populate tables (each DataTable becomes a worksheet) ...
 
-var metadata = new DocumentMetadata
-{
-    Title = "Payroll Data Export"
-};
+var metadata = new DocumentMetadata { Title = "Payroll Data Export" };
 
 // generate Excel workbook
-using var excelStream = dataMerge.ExcelMerge(dataSet, metadata);
+await using var excelStream = await documentService.ExcelMergeAsync(dataSet, metadata);
 
 // save to file
-await using var fileStream = File.Create("export.xlsx");
-await excelStream.CopyToAsync(fileStream);
+await excelStream.WriteToFile("export.xlsx");
 ```
 
-### Check Supported Document Types
+### FastReport Template Generation
 
 ```csharp
-var dataMerge = new DataMerge();
-bool canMergePdf   = dataMerge.IsMergeable(DocumentType.Pdf);    // true
-bool canMergeExcel = dataMerge.IsMergeable(DocumentType.Excel);  // true
+IDocumentService documentService = new DocumentService();
+
+var dataSet = new DataSet();
+// ... populate tables and relations ...
+
+// new skeleton — developer opens in FastReport Designer and builds the layout
+await using var frxStream = await documentService.GenerateAsync(dataSet);
+await frxStream.WriteToFile("MyReport.frx");
+
+// CI mode — update Dictionary in an existing template, preserving layout
+await using var templateStream = File.OpenRead("MyReport.frx");
+await using var updatedStream = await documentService.GenerateAsync(dataSet, templateStream);
+await updatedStream.WriteToFile("MyReport.frx");
 ```
 
 ---
 
 ## API Reference
 
-### `IDataMerge`
+### `IDocumentService`
 
-The interface implemented by `DataMerge`, providing the contract for document generation.
+The interface implemented by `DocumentService`, providing the contract for document generation.
 
-### `DataMerge`
+### `DocumentService`
 
-The main entry point implementing `IDataMerge`.
+The main entry point implementing `IDocumentService`.
 
 | Method | Return | Description |
 |:--|:--|:--|
+| `IsSupported(DocumentType)` | `bool` | Returns `true` for `Excel` and `Pdf` |
 | `IsMergeable(DocumentType)` | `bool` | Returns `true` for `Excel` and `Pdf` |
-| `Merge(Stream, DataSet, DocumentType, DocumentMetadata, IDictionary?)` | `MemoryStream` | Merges a FastReport template with data; produces PDF or delegates to `ExcelMerge` |
-| `ExcelMerge(DataSet, DocumentMetadata, IDictionary?)` | `MemoryStream` | Exports a `DataSet` to an `.xlsx` workbook <sup>1)</sup> |
+| `MergeAsync(Stream, DataSet, DocumentType, DocumentMetadata, IDictionary?)` | `Task<Stream>` | Merges a FastReport template with data; produces PDF or delegates to `ExcelMergeAsync` |
+| `ExcelMergeAsync(DataSet, DocumentMetadata, IDictionary?)` | `Task<Stream>` | Exports a `DataSet` to an `.xlsx` workbook <sup>1)</sup> |
+| `GenerateAsync(DataSet, Stream?)` | `Task<Stream>` | Generates a FastReport schema document; without `templateStream` creates a new skeleton, with `templateStream` updates the Dictionary section (CI mode) <sup>2)</sup> |
 
-<sup>1)</sup> The `parameters` argument of `ExcelMerge` is part of the interface signature but is not applied during Excel export — Excel workbooks have no template parameter concept.
+<sup>1)</sup> The `parameters` argument of `ExcelMergeAsync` is part of the interface signature but is not applied during Excel export — Excel workbooks have no template parameter concept.
+
+<sup>2)</sup> The generated stream contains UTF-8 encoded `.frx` XML. Table relations defined on the `DataSet` are included as `<Relation>` elements in the Dictionary.
 
 ### `DocumentMetadata`
 
@@ -181,5 +188,5 @@ Environment variable used during build:
 
 ## See Also
 - [Payroll Engine WebApp](https://github.com/Payroll-Engine/PayrollEngine.WebApp) — uses this library for report rendering
-- [Payroll Engine Console](https://github.com/Payroll-Engine/PayrollEngine.PayrollConsole) — uses this library for the `Report` and `DataReport` commands
+- [Payroll Engine Console](https://github.com/Payroll-Engine/PayrollEngine.PayrollConsole) — uses this library for the `Report`, `DataReport` and `ReportBuild` commands
 - [FastReport Open Source documentation](https://fastreports.github.io/FastReport.Documentation/) — template authoring reference

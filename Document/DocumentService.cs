@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -105,7 +106,7 @@ public class DocumentService : IDocumentService
 
     private static string BuildFrxSkeleton(DataSet dataSet)
     {
-        var now = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+        var now = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
         var sb = new StringBuilder();
         sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
         sb.Append("<Report ScriptLanguage=\"CSharp\"");

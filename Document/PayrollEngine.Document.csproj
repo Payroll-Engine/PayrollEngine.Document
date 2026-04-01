@@ -17,8 +17,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="PayrollEngine.Core" Version="0.10.0-beta.dev" />
-		<PackageReference Include="FastReport.OpenSource" Version="2026.1.5" />
-		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2026.1.5" />
+		<PackageReference Include="FastReport.OpenSource" Version="2026.1.8" />
+		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2026.1.8" />
 		<PackageReference Include="NPOI" Version="2.7.6" />
 	</ItemGroup>
 

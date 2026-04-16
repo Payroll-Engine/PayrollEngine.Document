@@ -1,4 +1,4 @@
-﻿<!--EXTERNAL_PROPERTIES: PackageId-->
+<!--EXTERNAL_PROPERTIES: PackageId-->
 <!--EXTERNAL_PROPERTIES: PackageVersion-->
 <Project Sdk="Microsoft.NET.Sdk">
 
@@ -15,11 +15,21 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<AcceptNPOIOSMFLicense>true</AcceptNPOIOSMFLicense>
+	</PropertyGroup>
+
+	<!-- suppress unpatched low-severity advisories in transitive System.Security.Cryptography.Xml -->
 	<ItemGroup>
-		<PackageReference Include="PayrollEngine.Core" Version="0.10.0-beta.dev" />
-		<PackageReference Include="FastReport.OpenSource" Version="2026.1.8" />
-		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2026.1.8" />
-		<PackageReference Include="NPOI" Version="2.7.6" />
+		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-37gx-xxp4-5rgx" />
+		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-w3x6-4m5h-cxqf" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PayrollEngine.Core" Version="$(Version)" />
+		<PackageReference Include="FastReport.OpenSource" Version="2026.2.0" />
+		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2026.2.0" />
+		<PackageReference Include="NPOI" Version="2.8.0" />
 	</ItemGroup>
 
 	<!-- include xml documention files and json schemas to the nuget package -->

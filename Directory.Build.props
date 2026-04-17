@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
@@ -7,7 +7,7 @@
 		<InformationalVersion></InformationalVersion>
 		<Authors>Jani Giannoudis</Authors>
 		<Company>Software Consulting Giannoudis</Company>
-		<Copyright>Â© 2026 Software Consulting Giannoudis</Copyright>
+		<Copyright>© 2026 Software Consulting Giannoudis</Copyright>
 		<Product>Payroll Engine Document</Product>
 		<PackageProjectUrl>https://payrollengine.org/</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Payroll-Engine/PayrollEngine.Document.git</RepositoryUrl>

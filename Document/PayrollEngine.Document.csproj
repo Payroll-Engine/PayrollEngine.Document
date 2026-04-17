@@ -19,17 +19,13 @@
 		<AcceptNPOIOSMFLicense>true</AcceptNPOIOSMFLicense>
 	</PropertyGroup>
 
-	<!-- suppress unpatched low-severity advisories in transitive System.Security.Cryptography.Xml -->
-	<ItemGroup>
-		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-37gx-xxp4-5rgx" />
-		<NuGetAuditSuppress Include="https://github.com/advisories/GHSA-w3x6-4m5h-cxqf" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<PackageReference Include="PayrollEngine.Core" Version="$(Version)" />
 		<PackageReference Include="FastReport.OpenSource" Version="2026.2.0" />
 		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2026.2.0" />
 		<PackageReference Include="NPOI" Version="2.8.0" />
+		<!-- Pin patched version: CVE-2026-26171 (GHSA-w3x6-4m5h-cxqf), GHSA-37gx-xxp4-5rgx; transitive via FastReport/NPOI -->
+		<PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.6" />
 	</ItemGroup>
 
 	<!-- include xml documention files and json schemas to the nuget package -->

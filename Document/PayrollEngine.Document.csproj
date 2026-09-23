@@ -1,4 +1,4 @@
-<!--EXTERNAL_PROPERTIES: PackageId-->
+﻿<!--EXTERNAL_PROPERTIES: PackageId-->
 <!--EXTERNAL_PROPERTIES: PackageVersion-->
 <Project Sdk="Microsoft.NET.Sdk">
 
@@ -21,11 +21,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="PayrollEngine.Core" Version="$(Version)" />
-		<PackageReference Include="FastReport.OpenSource" Version="2026.2.0" />
-		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2026.2.0" />
-		<PackageReference Include="NPOI" Version="2.8.0" />
-		<!-- Pin patched version: CVE-2026-26171 (GHSA-w3x6-4m5h-cxqf), GHSA-37gx-xxp4-5rgx; transitive via FastReport/NPOI -->
-		<PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.6" />
+		<PackageReference Include="FastReport.OpenSource" Version="2026.2.8" />
+		<PackageReference Include="FastReport.OpenSource.Export.PdfSimple" Version="2026.2.8" />
+		<PackageReference Include="NPOI" Version="2.8.1" />
+		<!-- Pin patched version: CVE-2026-26171 (GHSA-w3x6-4m5h-cxqf), GHSA-37gx-xxp4-5rgx, CVE-2026-50648 (GHSA-23rf-6693-g89p); transitive via FastReport/NPOI -->
+		<PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.12" />
 	</ItemGroup>
 
 	<!-- include xml documention files and json schemas to the nuget package -->

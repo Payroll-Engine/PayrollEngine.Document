@@ -3,6 +3,7 @@
 namespace PayrollEngine.Document;
 
 /// <summary>Extensions for the type <see cref="PDFSimpleExport"/> </summary>
+// ReSharper disable once InconsistentNaming
 public static class PDFSimpleExportExtensions
 {
     /// <summary>Apply metadata to the document</summary>

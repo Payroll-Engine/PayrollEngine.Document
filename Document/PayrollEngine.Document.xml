@@ -4,16 +4,8 @@
         <name>PayrollEngine.Document</name>
     </assembly>
     <members>
-        <member name="T:PayrollEngine.Document.CellExtensions">
-            <summary>Extensions for the type <see cref="T:NPOI.SS.UserModel.ICell"/> </summary>
-        </member>
-        <member name="M:PayrollEngine.Document.CellExtensions.SetValue(NPOI.SS.UserModel.ICell,System.Object)">
-            <summary>Set the excel cell value</summary>
-            <param name="cell">The target cell</param>
-            <param name="value">The value to set</param>
-        </member>
         <member name="T:PayrollEngine.Document.DocumentService">
-            <summary>Document service, based on FastReport and NPOI</summary>
+            <summary>Document service, based on FastReport (PDF) and ClosedXML (Excel)</summary>
         </member>
         <member name="M:PayrollEngine.Document.DocumentService.IsSupported(PayrollEngine.Document.DocumentType)">
             <inheritdoc />
@@ -30,6 +22,19 @@
         <member name="M:PayrollEngine.Document.DocumentService.GenerateAsync(System.Data.DataSet,System.IO.Stream)">
             <inheritdoc />
         </member>
+        <member name="T:PayrollEngine.Document.ExcelDocument">
+            <summary>Excel document writer</summary>
+        </member>
+        <member name="F:PayrollEngine.Document.ExcelDocument.MaxSheetNameLength">
+            <summary>Maximum length of a worksheet name</summary>
+        </member>
+        <member name="M:PayrollEngine.Document.ExcelDocument.Write(System.Data.DataSet,System.IO.Stream)">
+            <summary>Write a data set as Excel document (one worksheet per table)</summary>
+            <remarks>The header row contains the column names and is used as filter row.
+            Column widths are adjusted to the content.</remarks>
+            <param name="dataSet">The data set to write</param>
+            <param name="stream">The target stream</param>
+        </member>
         <member name="T:PayrollEngine.Document.PDFSimpleExportExtensions">
             <summary>Extensions for the type <see cref="T:FastReport.Export.PdfSimple.PDFSimpleExport"/> </summary>
         </member>
@@ -37,14 +42,6 @@
             <summary>Apply metadata to the document</summary>
             <param name="export">The document</param>
             <param name="metadata">The document meta data</param>
-        </member>
-        <member name="T:PayrollEngine.Document.WorkbookExtensions">
-            <summary>Extensions for the type <see cref="T:NPOI.SS.UserModel.IWorkbook"/> </summary>
-        </member>
-        <member name="M:PayrollEngine.Document.WorkbookExtensions.Import(NPOI.SS.UserModel.IWorkbook,System.Data.DataSet)">
-            <summary>Import data set to a workbook</summary>
-            <param name="workbook">The target workbook</param>
-            <param name="dataSet">The data set to import</param>
         </member>
     </members>
 </doc>

@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 using System.Xml;
 using FastReport;
 using FastReport.Export.PdfSimple;
-using NPOI.XSSF.UserModel;
 
 namespace PayrollEngine.Document;
 
-/// <summary>Document service, based on FastReport and NPOI</summary>
+/// <summary>Document service, based on FastReport (PDF) and ClosedXML (Excel)</summary>
 public class DocumentService : IDocumentService
 {
     /// <inheritdoc />
@@ -70,11 +69,8 @@ public class DocumentService : IDocumentService
         ArgumentNullException.ThrowIfNull(dataSet);
         ArgumentNullException.ThrowIfNull(metadata);
 
-        using var workbook = new XSSFWorkbook();
-        workbook.Import(dataSet);
-
         var resultStream = new MemoryStream();
-        workbook.Write(resultStream, true);
+        ExcelDocument.Write(dataSet, resultStream);
         resultStream.Seek(0, SeekOrigin.Begin);
 
         return Task.FromResult<Stream>(resultStream);

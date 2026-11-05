@@ -3,7 +3,7 @@
 > Part of the [Payroll Engine](https://github.com/Payroll-Engine/PayrollEngine) open-source payroll automation framework.
 > Full documentation at [payrollengine.org](https://payrollengine.org).
 
-Document library for the Payroll Engine, providing data transformation for exchange and reporting. Supports PDF generation via FastReport templates, Excel export via NPOI, and FastReport template generation from a DataSet schema.
+Document library for the Payroll Engine, providing data transformation for exchange and reporting. Supports PDF generation via FastReport templates, Excel export via ClosedXML, and FastReport template generation from a DataSet schema.
 
 ## Features
 - **PDF Generation** — Merge `DataSet` with FastReport templates (`.frx`) to produce PDF documents with metadata (author, title, keywords)
@@ -137,11 +137,11 @@ Applied to generated documents. Fields and their PDF mapping:
 
 | Class | Method | Description |
 |:--|:--|:--|
-| `CellExtensions` | `SetValue(ICell, object)` | Sets an Excel cell value with correct type mapping |
-| `WorkbookExtensions` | `Import(IWorkbook, DataSet)` | Imports all `DataTable`s as named worksheets; tables with no columns are skipped |
 | `PDFSimpleExportExtensions` | `ApplyMetadata(PDFSimpleExport, DocumentMetadata)` | Applies `DocumentMetadata` to a `PDFSimpleExport` instance |
 
 ### Type Mapping (Excel)
+
+Each `DataTable` becomes a worksheet named after the table (max. 31 characters); tables without columns are skipped.
 
 | .NET Type | Excel cell type |
 |:--|:--|
@@ -181,7 +181,7 @@ Environment variable used during build:
 
 | Component | Purpose | License |
 |:--|:--|:--|
-| [NPOI](https://github.com/dotnetcore/NPOI/) | Excel export | Apache 2.0 |
+| [ClosedXML](https://github.com/ClosedXML/ClosedXML/) | Excel export | MIT |
 | [FastReport Open Source](https://github.com/FastReports/FastReport/) | Report engine and PDF export | MIT |
 
 ---
